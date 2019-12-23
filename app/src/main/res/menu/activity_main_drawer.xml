@@ -12,10 +12,7 @@
             android:id="@+id/nav_fav"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="@string/menu_fav" />
-        <item
-            android:id="@+id/nav_setting"
-            android:icon="@drawable/ic_settings_applications_black_24dp"
-            android:title="@string/menu_setting" />
+
 
     </group>
 
@@ -29,10 +26,10 @@
                 android:id="@+id/nav_rate"
                 android:icon="@drawable/ic_rate_review_black_24dp"
                 android:title="@string/menu_rate" />
-            <item
+         <!--   <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="@string/menu_about" />
+                android:title="@string/menu_about" />-->
         </menu>
     </item>
 

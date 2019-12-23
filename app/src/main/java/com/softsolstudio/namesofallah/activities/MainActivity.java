@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,8 +21,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.softsolstudio.namesofallah.BuildConfig;
 import com.softsolstudio.namesofallah.R;
+import com.softsolstudio.namesofallah.fragment.FavouritFragment;
 import com.softsolstudio.namesofallah.fragment.HomeFragment;
+import com.softsolstudio.namesofallah.fragment.NamesAnimationFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -30,9 +34,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    String tag = "main";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (TextUtils.equals(tag, "main")) {
+            if (id == R.id.action_settings) {
+               startActivity(new Intent(this,NamesAnimationFragment.class));
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -81,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.nav_host_fragment, new HomeFragment(), null)
                     .commit();
-        }  else if (id == R.id.nav_fav) {
-
-        }  else if (id == R.id.nav_setting) {
-
-
+        } else if (id == R.id.nav_fav) {
+            // getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, new FavouritFragment(), null)
+                    .commit();
         } else if (id == R.id.nav_rate) {
 
             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
@@ -94,12 +118,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } catch (android.content.ActivityNotFoundException anfe) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
             }
-        }else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
             // sendFeedback(getActivity());
             try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Amndeep+Studio")));
-            } catch (android.content.ActivityNotFoundException anfe) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=Amndeep+Studio")));
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "99 Names of Allah");
+                String shareMessage= "\nLet me recommend you this application\n\n";
+                shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch(Exception e) {
+                //e.toString();
             }
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

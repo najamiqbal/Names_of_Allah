@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
                 model.setAudio(jsonObject.getString("audio"));
                 model.setId(jsonObject.getString("id"));
                 model.setImage(jsonObject.getString("image"));
+                model.setFav(jsonObject.getString("fav"));
                 NamesList.add(model);
                 // groupList.add(jsonObject.getString("name"));
                 //count++;

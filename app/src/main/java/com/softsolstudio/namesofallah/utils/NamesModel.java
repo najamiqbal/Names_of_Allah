@@ -8,6 +8,16 @@ private String m_eng;
 private String detail_urdu;
 private String detail_eng;
 
+    public String getFav() {
+        return fav;
+    }
+
+    public void setFav(String fav) {
+        this.fav = fav;
+    }
+
+    private String fav;
+
     public String getImage() {
         return image;
     }
